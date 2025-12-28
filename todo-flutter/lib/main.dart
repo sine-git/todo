@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todo_flutter/features/todo/presentation/bloc/todo-bloc.dart';
+import 'package:todo_flutter/features/todo/presentation/bloc/todo-event.dart';
 import 'package:todo_flutter/features/todo/presentation/pages/todo.page.dart';
 
 void main() {
@@ -7,7 +10,15 @@ void main() {
 }
 
 GoRouter allRoutes = GoRouter(
-  routes: [GoRoute(path: '/', builder: (context, state) => TodoPage())],
+  routes: [
+    GoRoute(
+      path: '/',
+      builder: (context, state) => BlocProvider(
+        create: (context) => TodoBloc()..add(TodoFindAllEvent()),
+        child: TodoPage(),
+      ),
+    ),
+  ],
 );
 
 class MyApp extends StatelessWidget {
