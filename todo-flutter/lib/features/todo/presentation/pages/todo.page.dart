@@ -29,7 +29,7 @@ class TodoPage extends StatelessWidget {
                     showDialog(
                       context: context,
                       builder: (context) =>
-                          TodoModal(title: "Mise à jour", todo: todo),
+                          TodoModal(title: "Update Todo", todo: todo),
                     );
                   },
                   title: Text(
@@ -53,10 +53,10 @@ class TodoPage extends StatelessWidget {
                     backgroundColor: todo.completed
                         ? Theme.of(
                             context,
-                          ).colorScheme.onTertiary.withValues(alpha: 0.5)
+                          ).colorScheme.onTertiary.withValues(alpha: 0.1)
                         : Theme.of(
                             context,
-                          ).colorScheme.primary.withValues(alpha: 0.5),
+                          ).colorScheme.primary.withValues(alpha: 0.1),
                   ),
                   //Checkbox(value: todo.completed, onChanged: null),
                 );
@@ -66,6 +66,15 @@ class TodoPage extends StatelessWidget {
           else
             return Center(child: Text("Impossible charger les données"));
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) => TodoModal(title: "Create Todo"),
+          );
+        },
+        child: Icon(Icons.add),
       ),
     );
   }

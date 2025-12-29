@@ -7,6 +7,7 @@ import 'package:todo_flutter/cores/widget/outlined-text-field.dart';
 import 'package:todo_flutter/features/todo/domain/entities/todo-entity.dart';
 import 'package:todo_flutter/features/todo/presentation/bloc/todo-bloc.dart';
 import 'package:todo_flutter/features/todo/presentation/bloc/todo-event.dart';
+import 'package:todo_flutter/features/todo/presentation/bloc/todo-state.dart';
 
 class TodoModal extends StatefulWidget {
   final String title;
@@ -20,7 +21,7 @@ class TodoModal extends StatefulWidget {
 class _TodoModalState extends State<TodoModal> {
   late final TextEditingController titleController;
   late final TextEditingController userIdController;
-  late final bool completed;
+  late bool completed;
 
   @override
   void initState() {
@@ -64,7 +65,7 @@ class _TodoModalState extends State<TodoModal> {
                       value != "" ? null : "Ce champ est obligatoire",
                 ),
                 OutlinedTextField(
-                  initialValue: '${widget?.todo?.userId}',
+                  initialValue: '${widget?.todo?.userId ?? ""}',
                   keyboardType: TextInputType.numberWithOptions(),
                   label: "UserId",
                   placeholder: "UserId",
@@ -107,8 +108,29 @@ class _TodoModalState extends State<TodoModal> {
                 title: titleController.text,
                 completed: completed,
               );
-              print("The Skill is ${todo}");
-              context.read<TodoBloc>().add(TodoCreateEvent(todoEntity: todo));
+              print(
+                "The Skill is ${todo}",
+              ); //              //context.read<TodoBloc>().add(TodoCreateEvent(todoEntity: todo));
+              context.read<TodoBloc>()..add(
+                todo.id == null
+                    ? TodoCreateEvent(todoEntity: todo)
+                    : TodoUpdateEvent(todoEntity: todo),
+              );
+              final state = context.read<TodoBloc>().state;
+              if (state is TodoSuccessState) {
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(state.message)));
+                context.pop();
+              }
+              if (state is TodoLoadingState) {}
+
+              if (state is TodoErrorState) {
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(state.message)));
+                context.pop();
+              }
             }
           },
           child: Text("Créer", style: TextStyle(fontWeight: FontWeight.bold)),
