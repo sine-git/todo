@@ -15,12 +15,10 @@ class TodoHttpDatasource implements TodoDataSources {
   TodoHttpDatasource({required this.api});
 
   @override
-  Future<TodoModel> create(TodoModel todoModel) async {
+  Future<TodoModel> create(TodoModel todo) async {
     try {
-      http.Response response = await api.post(
-        '${baseUrl}/posts',
-        jsonEncode(todoModel.toJson()),
-      );
+      final body = jsonEncode(todo.toMap(withId: false));
+      http.Response response = await api.post('${baseUrl}/posts', body);
       if (response.statusCode == 200 || response.statusCode == 201) {
         Map<String, dynamic> responseBody = jsonDecode(response.body);
         TodoModel todoModel = TodoModel.fromMap(responseBody);
@@ -87,10 +85,12 @@ class TodoHttpDatasource implements TodoDataSources {
   @override
   Future<TodoModel> update(TodoModel todo) async {
     try {
-      http.Response response = await api.put(
-        '${baseUrl}/todo',
-        jsonEncode(todo.toJson()),
+      final body = jsonEncode(todo.toMap(withId: false));
+      http.Response response = await api.patch(
+        '${baseUrl}/todo/${todo.id}',
+        body,
       );
+      final code = response.statusCode;
       //print("Api call response : $response");
       if (response.statusCode == 200 || response.statusCode == 201) {
         Map<String, dynamic> responseBody = jsonDecode(response.body);

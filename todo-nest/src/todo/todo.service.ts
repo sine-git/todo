@@ -35,7 +35,7 @@ export class TodoService {
 
     if (!dbTodo)
       throw new NotFoundException("Todo not found in database");
-    return this.todoRepository.save(updateTodoDto);
+    return this.todoRepository.save(dtoRequest);
   }
 
   async remove(id: number) {

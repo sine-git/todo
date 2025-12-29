@@ -10,13 +10,19 @@ class TodoModel extends TodoEntity {
     required super.completed,
   });
 
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'id': id,
-      'userId': userId,
-      'title': title,
-      'completed': completed,
-    };
+  Map<String, dynamic> toMap({bool withId = true}) {
+    return withId
+        ? <String, dynamic>{
+            'id': id,
+            'userId': userId,
+            'title': title,
+            'completed': completed,
+          }
+        : <String, dynamic>{
+            'userId': userId,
+            'title': title,
+            'completed': completed,
+          };
   }
 
   factory TodoModel.fromMap(Map<String, dynamic> map) {
@@ -46,7 +52,7 @@ class TodoModel extends TodoEntity {
     );
   }
 
-  String toJson() => json.encode(toMap());
+  String toJson({bool withId = false}) => json.encode(toMap(withId: withId));
 
   factory TodoModel.fromJson(String source) =>
       TodoModel.fromMap(json.decode(source) as Map<String, dynamic>);

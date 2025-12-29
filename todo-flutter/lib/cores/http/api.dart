@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
 class Api {
+  final defaultHeaders = {"Content-Type": "application/json"};
   Future<http.Response> get(String url, {Map<String, String>? headers}) async {
     return await http
         .get(Uri.parse(url), headers: headers)
@@ -18,7 +19,7 @@ class Api {
   }) async {
     return await http.post(
       Uri.parse(url),
-      headers: headers,
+      headers: headers ?? defaultHeaders,
       body: body,
       encoding: encoding,
     );
@@ -32,7 +33,21 @@ class Api {
   }) async {
     return await http.put(
       Uri.parse(url),
-      headers: headers,
+      headers: headers ?? defaultHeaders,
+      body: body,
+      encoding: encoding,
+    );
+  }
+
+  Future<http.Response> patch(
+    String url,
+    Object body, {
+    Map<String, String>? headers,
+    Encoding? encoding,
+  }) async {
+    return await http.patch(
+      Uri.parse(url),
+      headers: headers ?? defaultHeaders,
       body: body,
       encoding: encoding,
     );
@@ -46,7 +61,7 @@ class Api {
   }) async {
     return await http.delete(
       Uri.parse(url),
-      headers: headers,
+      headers: headers ?? defaultHeaders,
       body: body,
       encoding: encoding,
     );

@@ -31,7 +31,7 @@ class _TodoModalState extends State<TodoModal> {
     userIdController = TextEditingController();
 
     titleController.text = widget?.todo?.title ?? "";
-    userIdController.text = "${widget?.todo?.userId}";
+    userIdController.text = "${widget?.todo?.userId ?? ""}";
 
     completed = widget?.todo?.completed ?? false;
   }
@@ -105,15 +105,6 @@ class _TodoModalState extends State<TodoModal> {
               current is TodoActionLoadingState ||
               current is TodoActionErrorState,
           listener: (context, state) {
-            if (state is TodoActionSuccessState) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                  behavior: SnackBarBehavior.floating,
-                ),
-              );
-              //context.pop();
-            }
             if (state is TodoActionLoadingState) {
               showDialog(
                 context: context,
@@ -121,7 +112,20 @@ class _TodoModalState extends State<TodoModal> {
                     Center(child: CircularProgressIndicator()),
               );
             }
+            if (state is TodoActionSuccessState) {
+              context.pop();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                  behavior: SnackBarBehavior.floating,
+                  backgroundColor: Theme.of(context).colorScheme.onTertiary,
+                ),
+              );
+              context.pop();
+            }
+
             if (state is TodoActionErrorState) {
+              context.pop();
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(state.message),

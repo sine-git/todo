@@ -65,6 +65,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       emit(TodoActionLoadingState());
       final todo = await updateTodo(event.todoEntity);
       emit(TodoActionSuccessState(message: "Todo successfully updated"));
+      //_findAllTodo(event, emit);
     } catch (e) {
       emit(TodoActionErrorState(message: e.toString()));
     }
