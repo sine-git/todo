@@ -4,17 +4,19 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
 class Api {
-  Future<Response> get(String url, {Map<String, String>? headers}) {
-    return http.get(Uri.parse(url), headers: headers);
+  Future<http.Response> get(String url, {Map<String, String>? headers}) async {
+    return await http
+        .get(Uri.parse(url), headers: headers)
+        .timeout(Duration(seconds: 10));
   }
 
-  Future<Response> post(
+  Future<http.Response> post(
     String url,
     Object? body, {
     Map<String, String>? headers,
     Encoding? encoding,
-  }) {
-    return http.post(
+  }) async {
+    return await http.post(
       Uri.parse(url),
       headers: headers,
       body: body,
@@ -22,13 +24,13 @@ class Api {
     );
   }
 
-  Future<Response> put(
+  Future<http.Response> put(
     String url,
     Object body, {
     Map<String, String>? headers,
     Encoding? encoding,
-  }) {
-    return http.put(
+  }) async {
+    return await http.put(
       Uri.parse(url),
       headers: headers,
       body: body,
@@ -36,13 +38,13 @@ class Api {
     );
   }
 
-  Future<Response> delete(
+  Future<http.Response> delete(
     String url, {
     Map<String, String>? headers,
     Object? body,
     Encoding? encoding,
-  }) {
-    return http.delete(
+  }) async {
+    return await http.delete(
       Uri.parse(url),
       headers: headers,
       body: body,

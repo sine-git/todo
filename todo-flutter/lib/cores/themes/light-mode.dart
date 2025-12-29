@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 ThemeData lightMode = ThemeData(
   appBarTheme: AppBarTheme(
-    titleSpacing: 0,
+    //titleSpacing: 0,
     titleTextStyle: TextStyle(
       color: Color(0xFF444748),
       fontSize: 20,
@@ -11,7 +11,7 @@ ThemeData lightMode = ThemeData(
     ),
   ),
   colorScheme: ColorScheme.light(
-    primary: Color(0xFFFF7900),
+    primary: Colors.deepPurple,
     surface: Color(0xFFFFFFFF),
     inverseSurface: Color(0xFF444748),
     onTertiary: Color(0XFF32C832),

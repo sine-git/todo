@@ -3,7 +3,9 @@ import 'package:todo_flutter/features/todo/data/repositories/todo-repository-imp
 import 'package:todo_flutter/features/todo/domain/repositories/todo-repository.dart';
 
 class FindAllTodo {
-  final TodoRepository todoRepository = Get.find<TodoRepositoryImpl>();
+  final TodoRepository todoRepository;
+
+  FindAllTodo({required this.todoRepository});
 
   call() {
     return todoRepository.findAll();

@@ -6,7 +6,9 @@ import 'package:todo_flutter/features/todo/domain/entities/todo-entity.dart';
 import 'package:todo_flutter/features/todo/domain/repositories/todo-repository.dart';
 
 class TodoRepositoryImpl implements TodoRepository {
-  final TodoDataSources todoDataSources = Get.find<TodoHttpDatasource>();
+  final TodoDataSources todoDataSources;
+
+  TodoRepositoryImpl({required this.todoDataSources});
   @override
   Future<TodoEntity> create(TodoEntity todoEntity) {
     return todoDataSources.create(todoEntity as TodoModel);

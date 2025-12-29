@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'dart:ffi';
 
 class TodoEntity {
-  int id;
+  int? id;
   int userId;
   String title;
   bool completed;
   TodoEntity({
-    required this.id,
+    this.id,
     required this.userId,
     required this.title,
     required this.completed,

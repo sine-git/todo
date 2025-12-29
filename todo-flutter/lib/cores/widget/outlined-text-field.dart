@@ -10,6 +10,8 @@ class OutlinedTextField extends StatelessWidget {
   final void Function(String)? onChanged;
   final int? maxLines;
   final int? minLines;
+
+  String? initialValue;
   OutlinedTextField({
     Key? key,
     required this.label,
@@ -20,11 +22,13 @@ class OutlinedTextField extends StatelessWidget {
     this.keyboardType,
     this.maxLines,
     this.minLines,
+    this.initialValue,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: initialValue,
       keyboardType: keyboardType,
       validator: validator,
       onChanged: onChanged,

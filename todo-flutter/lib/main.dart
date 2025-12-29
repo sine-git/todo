@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todo_flutter/cores/themes/light-mode.dart';
+import 'package:todo_flutter/features/todo/domain/usecases/create-todo.dart';
+import 'package:todo_flutter/features/todo/domain/usecases/delete-todo.dart';
+import 'package:todo_flutter/features/todo/domain/usecases/find-all-todo.dart';
+import 'package:todo_flutter/features/todo/domain/usecases/find-one-todo.dart';
+import 'package:todo_flutter/features/todo/domain/usecases/update-todo.dart';
+import 'package:todo_flutter/features/todo/presentation/bindings/todo-bindings.dart';
 import 'package:todo_flutter/features/todo/presentation/bloc/todo-bloc.dart';
 import 'package:todo_flutter/features/todo/presentation/bloc/todo-event.dart';
 import 'package:todo_flutter/features/todo/presentation/pages/todo.page.dart';
@@ -9,14 +17,25 @@ void main() {
   runApp(const MyApp());
 }
 
+void initTodoDependencies() {
+  if (!Get.isRegistered<TodoBloc>()) {
+    TodoBidings().dependencies();
+  }
+}
+
 GoRouter allRoutes = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => BlocProvider(
-        create: (context) => TodoBloc()..add(TodoFindAllEvent()),
-        child: TodoPage(),
-      ),
+      builder: (context, state) {
+        initTodoDependencies();
+        return BlocProvider(
+          create: (context) {
+            return Get.find<TodoBloc>()..add(TodoFindAllEvent());
+          },
+          child: TodoPage(),
+        );
+      },
     ),
   ],
 );
@@ -30,24 +49,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       routerConfig: allRoutes,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
+      theme: lightMode,
     );
   }
 }

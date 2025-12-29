@@ -1,14 +1,18 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:todo_flutter/cores/http/api.dart';
 import 'package:todo_flutter/features/todo/data/datasources/todo-datasources.dart';
 import 'package:todo_flutter/features/todo/data/models/todo-model.dart';
-import 'package:http/http.dart' as http;
 
 class TodoHttpDatasource implements TodoDataSources {
-  final baseUrl = "0.172.27.46:3200";
-  final api = Get.find<Api>();
+  //final baseUrl = "http://10.172.27.46:3200";
+  final baseUrl = "http://192.168.239.225:3200";
+  final Api api;
+  TodoHttpDatasource({required this.api});
 
   @override
   Future<TodoModel> create(TodoModel todoModel) async {
@@ -33,7 +37,7 @@ class TodoHttpDatasource implements TodoDataSources {
   Future<List<TodoModel>> findAll() async {
     try {
       http.Response response = await api.get('${baseUrl}/todo');
-      print("Api call response : $response");
+      final code = response.statusCode;
       if (response.statusCode == 200) {
         List<dynamic> responseBody = jsonDecode(response.body);
         List<TodoModel> todos = responseBody
@@ -43,7 +47,7 @@ class TodoHttpDatasource implements TodoDataSources {
       }
       throw Exception("Une erreur est survenue");
     } catch (e, tr) {
-      print("$e et la trace est $tr");
+      //print("$e et la trace est $tr");
       throw Exception("Une erreur est survenue");
     }
   }
