@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart';
 
 import 'package:todo_flutter/features/todo/domain/usecases/create-todo.dart';
 import 'package:todo_flutter/features/todo/domain/usecases/delete-todo.dart';
@@ -47,18 +48,42 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   }
 
   FutureOr<void> _createTodo(TodoCreateEvent event, Emitter<TodoState> emit) {
-    try {} catch (e) {}
+    try {
+      emit(TodoLoadingState());
+      final todo = createTodo(event.todoEntity);
+      emit(TodoSuccessState(message: "Todo successfully created"));
+    } catch (e) {
+      emit(TodoErrorState(message: e.toString()));
+    }
   }
 
   FutureOr<void> _updateTodo(TodoUpdateEvent event, Emitter<TodoState> emit) {
-    try {} catch (e) {}
+    try {
+      emit(TodoLoadingState());
+      final todo = updateTodo(event.todoEntity);
+      emit(TodoSuccessState(message: "Todo successfully updated"));
+    } catch (e) {
+      emit(TodoErrorState(message: e.toString()));
+    }
   }
 
   FutureOr<void> _findOneTodo(TodoFindOneEvent event, Emitter<TodoState> emit) {
-    try {} catch (e) {}
+    try {
+      emit(TodoLoadingState());
+      final todo = findOneTodo(event.id);
+      emit(TodoSuccessState(message: "Todo successfully updated"));
+    } catch (e) {
+      emit(TodoErrorState(message: e.toString()));
+    }
   }
 
   FutureOr<void> _deleteTodo(TodoDeleteEvent event, Emitter<TodoState> emit) {
-    try {} catch (e) {}
+    try {
+      emit(TodoLoadingState());
+      final todo = deleteTodo(event.id);
+      emit(TodoSuccessState(message: "Todo successfully updated"));
+    } catch (e) {
+      emit(TodoErrorState(message: e.toString()));
+    }
   }
 }

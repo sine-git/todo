@@ -13,7 +13,9 @@ class TodoPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text("Todo list")),
       body: BlocBuilder<TodoBloc, TodoState>(
+        //listener: (context, state) {},
         builder: (context, state) {
+          final bloc = context.read<TodoBloc>();
           if (state is TodoLoadingState)
             return Center(child: CircularProgressIndicator());
           else if (state is TodoLoadedState)
@@ -22,14 +24,18 @@ class TodoPage extends StatelessWidget {
                 final todo = state.todos[index];
                 return ListTile(
                   /*  leading: CircleAvatar(
-                    child: Text('${todo.id}'),
-                    backgroundColor: Colors.grey,
-                  ), */
+                        child: Text('${todo.id}'),
+                        backgroundColor: Colors.grey,
+                      ), */
                   onTap: () {
                     showDialog(
                       context: context,
-                      builder: (context) =>
-                          TodoModal(title: "Update Todo", todo: todo),
+                      builder: (context) {
+                        return BlocProvider.value(
+                          value: bloc,
+                          child: TodoModal(title: "Update Todo", todo: todo),
+                        );
+                      },
                     );
                   },
                   title: Text(

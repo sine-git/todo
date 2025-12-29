@@ -123,8 +123,13 @@ class _TodoModalState extends State<TodoModal> {
                 ).showSnackBar(SnackBar(content: Text(state.message)));
                 context.pop();
               }
-              if (state is TodoLoadingState) {}
-
+              if (state is TodoLoadingState) {
+                showDialog(
+                  context: context,
+                  builder: (context) =>
+                      Center(child: CircularProgressIndicator()),
+                );
+              }
               if (state is TodoErrorState) {
                 ScaffoldMessenger.of(
                   context,
@@ -133,7 +138,10 @@ class _TodoModalState extends State<TodoModal> {
               }
             }
           },
-          child: Text("Créer", style: TextStyle(fontWeight: FontWeight.bold)),
+          child: Text(
+            widget.todo?.id == null ? "Save" : "Update",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
         ),
       ],
     );
