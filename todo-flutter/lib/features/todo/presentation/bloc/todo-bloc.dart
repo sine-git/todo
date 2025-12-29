@@ -51,29 +51,35 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     try {
       emit(TodoLoadingState());
       final todo = createTodo(event.todoEntity);
-      emit(TodoSuccessState(message: "Todo successfully created"));
+      emit(TodoActionSuccessState(message: "Todo successfully created"));
     } catch (e) {
-      emit(TodoErrorState(message: e.toString()));
+      emit(TodoActionErrorState(message: e.toString()));
     }
   }
 
-  FutureOr<void> _updateTodo(TodoUpdateEvent event, Emitter<TodoState> emit) {
+  FutureOr<void> _updateTodo(
+    TodoUpdateEvent event,
+    Emitter<TodoState> emit,
+  ) async {
     try {
-      emit(TodoLoadingState());
-      final todo = updateTodo(event.todoEntity);
-      emit(TodoSuccessState(message: "Todo successfully updated"));
+      emit(TodoActionLoadingState());
+      final todo = await updateTodo(event.todoEntity);
+      emit(TodoActionSuccessState(message: "Todo successfully updated"));
     } catch (e) {
-      emit(TodoErrorState(message: e.toString()));
+      emit(TodoActionErrorState(message: e.toString()));
     }
   }
 
-  FutureOr<void> _findOneTodo(TodoFindOneEvent event, Emitter<TodoState> emit) {
+  FutureOr<void> _findOneTodo(
+    TodoFindOneEvent event,
+    Emitter<TodoState> emit,
+  ) async {
     try {
       emit(TodoLoadingState());
-      final todo = findOneTodo(event.id);
-      emit(TodoSuccessState(message: "Todo successfully updated"));
+      final todo = await findOneTodo(event.id);
+      emit(TodoOneLoadedState(todo: todo));
     } catch (e) {
-      emit(TodoErrorState(message: e.toString()));
+      emit(TodoActionErrorState(message: e.toString()));
     }
   }
 
@@ -81,9 +87,9 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     try {
       emit(TodoLoadingState());
       final todo = deleteTodo(event.id);
-      emit(TodoSuccessState(message: "Todo successfully updated"));
+      emit(TodoActionSuccessState(message: "Todo successfully updated"));
     } catch (e) {
-      emit(TodoErrorState(message: e.toString()));
+      emit(TodoActionErrorState(message: e.toString()));
     }
   }
 }

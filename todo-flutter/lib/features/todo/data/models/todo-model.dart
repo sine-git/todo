@@ -28,6 +28,24 @@ class TodoModel extends TodoEntity {
     );
   }
 
+  factory TodoModel.fromEntity(TodoEntity entity) {
+    return TodoModel(
+      id: entity.id,
+      title: entity.title,
+      completed: entity.completed,
+      userId: entity.userId,
+    );
+  }
+
+  TodoEntity toEntity() {
+    return TodoEntity(
+      id: id,
+      title: title,
+      completed: completed,
+      userId: userId,
+    );
+  }
+
   String toJson() => json.encode(toMap());
 
   factory TodoModel.fromJson(String source) =>

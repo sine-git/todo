@@ -7,9 +7,16 @@ class TodoInitialState extends TodoState {}
 
 class TodoLoadingState extends TodoState {}
 
+class TodoActionLoadingState extends TodoState {}
+
 class TodoLoadedState extends TodoState {
   List<TodoEntity> todos;
   TodoLoadedState({required this.todos});
+}
+
+class TodoOneLoadedState extends TodoState {
+  TodoEntity todo;
+  TodoOneLoadedState({required this.todo});
 }
 
 class TodoErrorState extends TodoState {
@@ -17,8 +24,13 @@ class TodoErrorState extends TodoState {
   TodoErrorState({required this.message});
 }
 
-class TodoSuccessState extends TodoState {
+class TodoActionSuccessState extends TodoState {
   final String message;
 
-  TodoSuccessState({required this.message});
+  TodoActionSuccessState({required this.message});
+}
+
+class TodoActionErrorState extends TodoState {
+  final String message;
+  TodoActionErrorState({required this.message});
 }

@@ -10,8 +10,8 @@ class TodoRepositoryImpl implements TodoRepository {
 
   TodoRepositoryImpl({required this.todoDataSources});
   @override
-  Future<TodoEntity> create(TodoEntity todoEntity) {
-    return todoDataSources.create(todoEntity as TodoModel);
+  Future<TodoEntity> create(TodoEntity todo) {
+    return todoDataSources.create(TodoModel.fromEntity(todo));
   }
 
   @override
@@ -31,6 +31,6 @@ class TodoRepositoryImpl implements TodoRepository {
 
   @override
   Future<TodoEntity> update(TodoEntity todo) {
-    return todoDataSources.update(todo as TodoModel);
+    return todoDataSources.update(TodoModel.fromEntity(todo));
   }
 }

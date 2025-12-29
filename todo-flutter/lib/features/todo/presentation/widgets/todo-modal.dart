@@ -99,49 +99,65 @@ class _TodoModalState extends State<TodoModal> {
           },
           child: Text("Annuler", style: TextStyle(fontWeight: FontWeight.bold)),
         ),
-        TextButton(
-          onPressed: () {
-            if (_formKey.currentState!.validate()) {
-              TodoEntity todo = TodoEntity(
-                id: widget!.todo!.id ?? null,
-                userId: int.tryParse(userIdController.text) ?? 0,
-                title: titleController.text,
-                completed: completed,
+        BlocConsumer<TodoBloc, TodoState>(
+          listenWhen: (previous, current) =>
+              current is TodoActionSuccessState ||
+              current is TodoActionLoadingState ||
+              current is TodoActionErrorState,
+          listener: (context, state) {
+            if (state is TodoActionSuccessState) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                  behavior: SnackBarBehavior.floating,
+                ),
               );
-              print(
-                "The Skill is ${todo}",
-              ); //              //context.read<TodoBloc>().add(TodoCreateEvent(todoEntity: todo));
-              context.read<TodoBloc>()..add(
-                todo.id == null
-                    ? TodoCreateEvent(todoEntity: todo)
-                    : TodoUpdateEvent(todoEntity: todo),
+              //context.pop();
+            }
+            if (state is TodoActionLoadingState) {
+              showDialog(
+                context: context,
+                builder: (context) =>
+                    Center(child: CircularProgressIndicator()),
               );
-              final state = context.read<TodoBloc>().state;
-              if (state is TodoSuccessState) {
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(SnackBar(content: Text(state.message)));
-                context.pop();
-              }
-              if (state is TodoLoadingState) {
-                showDialog(
-                  context: context,
-                  builder: (context) =>
-                      Center(child: CircularProgressIndicator()),
-                );
-              }
-              if (state is TodoErrorState) {
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(SnackBar(content: Text(state.message)));
-                context.pop();
-              }
+            }
+            if (state is TodoActionErrorState) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                  behavior: SnackBarBehavior.floating,
+                ),
+              );
+              context.pop();
             }
           },
-          child: Text(
-            widget.todo?.id == null ? "Save" : "Update",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
+          builder: (context, state) {
+            return TextButton(
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  TodoEntity todo = TodoEntity(
+                    id: widget!.todo!.id ?? null,
+                    userId: int.tryParse(userIdController.text) ?? 0,
+                    title: titleController.text,
+                    completed: completed,
+                  );
+                  print(
+                    "The Skill is ${todo}",
+                  ); //              //context.read<TodoBloc>().add(TodoCreateEvent(todoEntity: todo));
+                  context.read<TodoBloc>()..add(
+                    todo.id == null
+                        ? TodoCreateEvent(todoEntity: todo)
+                        : TodoUpdateEvent(todoEntity: todo),
+                  );
+                  // final state = context.read<TodoBloc>().state;
+                }
+              },
+              child: Text(
+                widget.todo?.id == null ? "Save" : "Update",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+            );
+          },
         ),
       ],
     );
