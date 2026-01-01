@@ -43,7 +43,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       final todos = await findAllTodo();
       emit(TodoLoadedState(todos: todos));
     } catch (e) {
-      emit(TodoErrorState(message: e.toString()));
+      emit(TodoActionErrorState()..message = e.toString());
     }
   }
 
@@ -54,9 +54,9 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     try {
       emit(TodoLoadingState());
       final todo = await createTodo(event.todoEntity);
-      emit(TodoActionSuccessState(message: "Todo successfully created"));
+      emit(TodoActionSuccessState()..message = "Todo successfully created");
     } catch (e) {
-      emit(TodoActionErrorState(message: e.toString()));
+      emit(TodoActionErrorState()..message = e.toString());
     }
   }
 
@@ -67,10 +67,10 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     try {
       emit(TodoActionLoadingState());
       final todo = await updateTodo(event.todoEntity);
-      emit(TodoActionSuccessState(message: "Todo successfully updated"));
+      emit(TodoActionSuccessState()..message = "Todo successfully updated");
       //_findAllTodo(event, emit);
     } catch (e) {
-      emit(TodoActionErrorState(message: e.toString()));
+      emit(TodoActionErrorState()..message = e.toString());
     }
   }
 
@@ -83,17 +83,20 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
       final todo = await findOneTodo(event.id);
       emit(TodoOneLoadedState(todo: todo));
     } catch (e) {
-      emit(TodoActionErrorState(message: e.toString()));
+      emit(TodoActionErrorState()..message = e.toString());
     }
   }
 
-  FutureOr<void> _deleteTodo(TodoDeleteEvent event, Emitter<TodoState> emit) {
+  FutureOr<void> _deleteTodo(
+    TodoDeleteEvent event,
+    Emitter<TodoState> emit,
+  ) async {
     try {
       emit(TodoLoadingState());
-      final todo = deleteTodo(event.id);
-      emit(TodoActionSuccessState(message: "Todo successfully updated"));
+      final todo = await deleteTodo(event.id);
+      emit(TodoActionSuccessState()..message = "Todo sussessfully deleted");
     } catch (e) {
-      emit(TodoActionErrorState(message: e.toString()));
+      emit(TodoActionErrorState()..message = e.toString());
     }
   }
 }

@@ -9,7 +9,7 @@ import 'package:todo_flutter/features/todo/data/datasources/todo-datasources.dar
 import 'package:todo_flutter/features/todo/data/models/todo-model.dart';
 
 class TodoHttpDatasource implements TodoDataSources {
-  final baseUrl = "http://192.168.233.223:3200";
+  final baseUrl = "http://192.168.1.3:3200";
   //final baseUrl = "http://127.0.0.1:3200";
   //final baseUrl = "https://jsonplaceholder.typicode.com";
   final Api api;
@@ -52,7 +52,7 @@ class TodoHttpDatasource implements TodoDataSources {
   @override
   Future<TodoModel> findOne(int id) async {
     try {
-      http.Response response = await api.get('${baseUrl}/todo');
+      http.Response response = await api.get('${baseUrl}/todo/${id}');
       print("Api call response : $response");
       if (response.statusCode == 200) {
         dynamic responseBody = jsonDecode(response.body);
@@ -70,10 +70,8 @@ class TodoHttpDatasource implements TodoDataSources {
     try {
       http.Response response = await api.delete('${baseUrl}/todo/${id}');
       print("Api call response : $response");
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        Map<String, dynamic> responseBody = jsonDecode(response.body);
-        return;
-      }
+      if (response.statusCode == 200 || response.statusCode == 201) return;
+
       throw Exception(response.reasonPhrase);
     } catch (e, tr) {
       throw Exception(e.toString());

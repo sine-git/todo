@@ -8,6 +8,6 @@ class DeleteTodo {
   DeleteTodo({required this.todoRepository});
 
   call(int id) {
-    return todoRepository.findOne(id);
+    return todoRepository.remove(id);
   }
 }

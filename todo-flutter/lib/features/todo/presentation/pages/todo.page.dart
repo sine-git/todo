@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_flutter/cores/utils/functions.dart';
 import 'package:todo_flutter/features/todo/presentation/bloc/todo-bloc.dart';
 import 'package:todo_flutter/features/todo/presentation/bloc/todo-event.dart';
 import 'package:todo_flutter/features/todo/presentation/bloc/todo-state.dart';
@@ -35,17 +36,11 @@ class TodoPage extends StatelessWidget {
               );
             }
             if (state is TodoActionSuccessState) {
+              showMessage(context, state);
               context.read<TodoBloc>()..add(TodoFindAllEvent());
             }
 
-            if (state is TodoActionErrorState)
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                  behavior: SnackBarBehavior.floating,
-                  backgroundColor: Theme.of(context).colorScheme.onTertiary,
-                ),
-              );
+            if (state is TodoActionErrorState) showMessage(context, state);
           },
           buildWhen: (previous, current) =>
               //current is TodoLoadingState ||
@@ -58,7 +53,7 @@ class TodoPage extends StatelessWidget {
           //current is TodoInitialState
           builder: (context, state) {
             final bloc = context.read<TodoBloc>();
-            if (state is TodoLoadingState)
+            if (state is TodoLoadingState || state is TodoActionLoadingState)
               return Center(child: CircularProgressIndicator());
             if (state is TodoLoadedState)
               return ListView.builder(
@@ -69,6 +64,15 @@ class TodoPage extends StatelessWidget {
                     onDismissed: (direction) {
                       context.read<TodoBloc>()
                         ..add(TodoDeleteEvent(id: todo.id!));
+                    },
+                    onUpdate: (details) {},
+                    confirmDismiss: (details) async {
+                      (direction) {
+                        if (state is TodoActionSuccessState) return true;
+                        if (state is TodoErrorState) {}
+                        return true;
+                      };
+                      return false;
                     },
                     child: ListTile(
                       /*  leading: CircleAvatar(
@@ -91,7 +95,7 @@ class TodoPage extends StatelessWidget {
                       },
                       title: Text(
                         'User ${todo.userId}',
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(fontWeight: FontWeight.w200),
                       ),
                       subtitle: Text(todo.title),
                       trailing: Chip(
