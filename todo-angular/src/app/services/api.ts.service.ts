@@ -10,42 +10,42 @@ export class ApiService {
 
   constructor(private httpService: HttpClient) {
   }
-  get(url: string, options?: {
+  get<T>(url: string, options?: {
     headers?: HttpHeaders | {
       [header: string]: string | string[];
     } | undefined
   }): Observable<any> {
-    return this.httpService.get(url, options)
+    return this.httpService.get<T>(url, options)
   }
-  post(url: string, body: any, options?: {
+  post<T>(url: string, body: any, options?: {
     headers?: HttpHeaders | {
       [header: string]: string | string[];
     } | undefined
   }): Observable<any> {
-    return this.httpService.post(url, body, options)
-  }
-
-  patch(url: string, body: any, options?: {
-    headers?: HttpHeaders | {
-      [header: string]: string | string[];
-    } | undefined
-  }): Observable<any> {
-    return this.httpService.patch(url, body, options)
+    return this.httpService.post<T>(url, body, options)
   }
 
-  put(url: string, body: any, options?: {
+  patch<T>(url: string, body: any, options?: {
     headers?: HttpHeaders | {
       [header: string]: string | string[];
     } | undefined
   }): Observable<any> {
-    return this.httpService.put(url, body, options)
+    return this.httpService.patch<T>(url, body, options)
   }
 
-  delete(url: string, options?: {
+  put<T>(url: string, body: any, options?: {
     headers?: HttpHeaders | {
       [header: string]: string | string[];
     } | undefined
   }): Observable<any> {
-    return this.httpService.delete(url, options)
+    return this.httpService.put<T>(url, body, options)
+  }
+
+  delete<T>(url: string, options?: {
+    headers?: HttpHeaders | {
+      [header: string]: string | string[];
+    } | undefined
+  }): Observable<any> {
+    return this.httpService.delete<T>(url, options)
   }
 }

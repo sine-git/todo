@@ -21,14 +21,8 @@ export class TodoService {
     }
   }
 
-  async findAll(): Promise<TodoModel[]> {
-    try {
-      const response = await firstValueFrom(this.api.get(`${this.baseUrl}/todo`));
-      const todos = JSON.parse(response) as TodoModel[]
-      return todos;
-    } catch (e) {
-      throw e
-    }
+  findAll(): Observable<TodoModel[]> {
+    return this.api.get<TodoModel[]>(`${this.baseUrl}/todo`);
   }
 
   async findOne(id: number): Promise<TodoModel> {

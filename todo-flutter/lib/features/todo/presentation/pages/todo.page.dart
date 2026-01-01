@@ -95,7 +95,7 @@ class TodoPage extends StatelessWidget {
                           },
                         );
                       },
-                      title: Text(
+                      title: SelectableText(
                         'User ${todo.userId}',
                         style: TextStyle(fontWeight: FontWeight.w200),
                       ),

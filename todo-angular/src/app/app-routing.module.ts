@@ -6,7 +6,7 @@ const routes: Routes = [
   {
     path: "todo",
     loadChildren: () => import('./features/todo/todo.module').then(() => TodoModule)
-  }
+  },
 ];
 
 @NgModule({

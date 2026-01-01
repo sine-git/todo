@@ -1,0 +1,28 @@
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.title {
+  //color: black;
+}
+
+.title {
+  font-weight: 300;
+}
+
+.state {
+  padding: 4px 20px 4px 20px;
+  font-weight: 400;
+  border-radius: 30px;
+}
+
+.completed {
+  background-color: #32c83219;
+  color: #32c832;
+}
+
+.on-going {
+  background-color: #673ab719;
+  color: #673ab7;
+}

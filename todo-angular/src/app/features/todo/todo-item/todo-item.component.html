@@ -3,5 +3,9 @@
     <div class="title">User {{ userId }}</div>
     <div class="subtitle">{{ title }}</div>
   </div>
-  <div class="trailing">{{ state ? "Completed" : "On going" }}</div>
+  <div class="trailing">
+    <div class="state" [ngClass]="state ? 'completed' : 'on-going'">
+      {{ state ? "Completed" : "On going" }}
+    </div>
+  </div>
 </div>

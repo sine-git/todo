@@ -6,10 +6,11 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./todo-item.component.scss']
 })
 export class TodoItemComponent {
-  @Input()
+  @Input('state')
   state: boolean = false;
   @Input()
-  userId: string = "";
-  @Input()
-  title: string = "";
+  userId?: string;
+  @Input('title')
+  title?: string;
+
 }

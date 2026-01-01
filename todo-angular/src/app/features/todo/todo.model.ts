@@ -1,4 +1,4 @@
 export class TodoModel {
-    constructor(public id?: number, public title?: string, public state: boolean = false) {
+    constructor(public id?: number, public userId?: number, public title?: string, public completed: boolean = false) {
     }
 }

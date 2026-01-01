@@ -11,7 +11,7 @@ ThemeData lightMode = ThemeData(
     ),
   ),
   colorScheme: ColorScheme.light(
-    primary: Colors.deepPurple,
+    primary: const Color.fromRGBO(103, 58, 183, 1),
     surface: Color(0xFFFFFFFF),
     inverseSurface: Color(0xFF444748),
     onTertiary: Color(0XFF32C832),
