@@ -2,7 +2,7 @@
 import 'package:todo_flutter/cores/mixins/action-state.dart';
 import 'package:todo_flutter/features/todo/domain/entities/todo-entity.dart';
 
-abstract class TodoState {}
+abstract class TodoState with ActionState {}
 
 class TodoInitialState extends TodoState {}
 
@@ -20,16 +20,16 @@ class TodoOneLoadedState extends TodoState {
   TodoOneLoadedState({required this.todo});
 }
 
-class TodoErrorState extends TodoState with ActionState {
+class TodoErrorState extends TodoState {
   TodoErrorState();
 }
 
-class TodoActionSuccessState extends TodoState with ActionState {
+class TodoActionSuccessState extends TodoState {
   //final String message;
 
   TodoActionSuccessState();
 }
 
-class TodoActionErrorState extends TodoState with ActionState {
+class TodoActionErrorState extends TodoState {
   TodoActionErrorState();
 }

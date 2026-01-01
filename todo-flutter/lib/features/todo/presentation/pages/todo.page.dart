@@ -62,16 +62,18 @@ class TodoPage extends StatelessWidget {
                   return Dismissible(
                     key: GlobalKey(),
                     onDismissed: (direction) {
-                      context.read<TodoBloc>()
-                        ..add(TodoDeleteEvent(id: todo.id!));
+                      print("on Dismissed");
+                      if (state is TodoActionSuccessState)
+                        context.read<TodoBloc>()..add(TodoFindAllEvent());
                     },
                     onUpdate: (details) {},
                     confirmDismiss: (details) async {
-                      (direction) {
-                        if (state is TodoActionSuccessState) return true;
-                        if (state is TodoErrorState) {}
-                        return true;
-                      };
+                      context.read<TodoBloc>()
+                        ..add(TodoDeleteEvent(id: todo.id!));
+                      if (state is TodoActionSuccessState) return true;
+                      if (state is TodoErrorState) {
+                        showMessage(context, state);
+                      }
                       return false;
                     },
                     child: ListTile(

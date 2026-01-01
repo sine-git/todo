@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todo_flutter/cores/utils/functions.dart';
 import 'package:todo_flutter/cores/widget/outlined-text-field.dart';
 
 import 'package:todo_flutter/features/todo/domain/entities/todo-entity.dart';
@@ -112,24 +113,12 @@ class _TodoModalState extends State<TodoModal> {
             }
             if (state is TodoActionSuccessState) {
               context.pop();
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                  behavior: SnackBarBehavior.floating,
-                  backgroundColor: Theme.of(context).colorScheme.onTertiary,
-                ),
-              );
-              context.pop();
+              //  showMessage(context, state);
             }
 
             if (state is TodoActionErrorState) {
               context.pop();
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                  behavior: SnackBarBehavior.floating,
-                ),
-              );
+              showMessage(context, state);
               //context.pop();
             }
           },
