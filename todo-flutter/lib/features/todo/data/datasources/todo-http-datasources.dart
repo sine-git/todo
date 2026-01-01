@@ -9,8 +9,9 @@ import 'package:todo_flutter/features/todo/data/datasources/todo-datasources.dar
 import 'package:todo_flutter/features/todo/data/models/todo-model.dart';
 
 class TodoHttpDatasource implements TodoDataSources {
-  //final baseUrl = "http://10.172.27.46:3200";
-  final baseUrl = "http://192.168.239.225:3200";
+  final baseUrl = "http://192.168.233.223:3200";
+  //final baseUrl = "http://127.0.0.1:3200";
+  //final baseUrl = "https://jsonplaceholder.typicode.com";
   final Api api;
   TodoHttpDatasource({required this.api});
 
@@ -18,16 +19,15 @@ class TodoHttpDatasource implements TodoDataSources {
   Future<TodoModel> create(TodoModel todo) async {
     try {
       final body = jsonEncode(todo.toMap(withId: false));
-      http.Response response = await api.post('${baseUrl}/posts', body);
+      http.Response response = await api.post('${baseUrl}/todo', body);
       if (response.statusCode == 200 || response.statusCode == 201) {
         Map<String, dynamic> responseBody = jsonDecode(response.body);
         TodoModel todoModel = TodoModel.fromMap(responseBody);
         return todoModel;
       }
-      throw Exception("Une erreur est survenue");
+      throw Exception(response.reasonPhrase);
     } catch (e, tr) {
-      print("$e et la trace est $tr");
-      throw Exception("Une erreur est survenue");
+      throw Exception(e.toString());
     }
   }
 
@@ -43,10 +43,9 @@ class TodoHttpDatasource implements TodoDataSources {
             .toList();
         return todos;
       }
-      throw Exception("Une erreur est survenue");
+      throw Exception(response.reasonPhrase);
     } catch (e, tr) {
-      //print("$e et la trace est $tr");
-      throw Exception("Une erreur est survenue");
+      throw Exception(e.toString());
     }
   }
 
@@ -60,9 +59,9 @@ class TodoHttpDatasource implements TodoDataSources {
         TodoModel todo = TodoModel.fromMap(responseBody);
         return todo;
       }
-      throw Exception("Une erreur est survenue");
+      throw Exception(response.reasonPhrase);
     } catch (e) {
-      throw Exception("Une erreur est survenue");
+      throw Exception(e.toString());
     }
   }
 
@@ -75,10 +74,9 @@ class TodoHttpDatasource implements TodoDataSources {
         Map<String, dynamic> responseBody = jsonDecode(response.body);
         return;
       }
-      throw Exception("Une erreur est survenue");
+      throw Exception(response.reasonPhrase);
     } catch (e, tr) {
-      print("$e et la trace est $tr");
-      throw Exception("Une erreur est survenue");
+      throw Exception(e.toString());
     }
   }
 
@@ -97,10 +95,9 @@ class TodoHttpDatasource implements TodoDataSources {
         TodoModel todo = TodoModel.fromMap(responseBody);
         return todo;
       }
-      throw Exception("Une erreur est survenue");
+      throw Exception(response.reasonPhrase);
     } catch (e, tr) {
-      print("$e et la trace est $tr");
-      throw Exception("Une erreur est survenue");
+      throw Exception(e.toString());
     }
   }
 }

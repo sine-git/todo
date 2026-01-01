@@ -22,6 +22,7 @@ class _TodoModalState extends State<TodoModal> {
   late final TextEditingController titleController;
   late final TextEditingController userIdController;
   late bool completed;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -29,16 +30,13 @@ class _TodoModalState extends State<TodoModal> {
     super.initState();
     titleController = TextEditingController();
     userIdController = TextEditingController();
-
     titleController.text = widget?.todo?.title ?? "";
     userIdController.text = "${widget?.todo?.userId ?? ""}";
-
     completed = widget?.todo?.completed ?? false;
   }
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
     return AlertDialog(
       title: Text(
         widget.title,
@@ -132,7 +130,7 @@ class _TodoModalState extends State<TodoModal> {
                   behavior: SnackBarBehavior.floating,
                 ),
               );
-              context.pop();
+              //context.pop();
             }
           },
           builder: (context, state) {
@@ -140,7 +138,7 @@ class _TodoModalState extends State<TodoModal> {
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
                   TodoEntity todo = TodoEntity(
-                    id: widget!.todo!.id ?? null,
+                    id: widget?.todo?.id,
                     userId: int.tryParse(userIdController.text) ?? 0,
                     title: titleController.text,
                     completed: completed,

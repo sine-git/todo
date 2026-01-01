@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
@@ -7,8 +8,9 @@ class Api {
   final defaultHeaders = {"Content-Type": "application/json"};
   Future<http.Response> get(String url, {Map<String, String>? headers}) async {
     return await http
-        .get(Uri.parse(url), headers: headers)
-        .timeout(Duration(seconds: 10));
+        .get(Uri.parse(url), headers: headers ?? defaultHeaders)
+        .timeout(const Duration(seconds: 5));
+    // return response;
   }
 
   Future<http.Response> post(

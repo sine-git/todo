@@ -47,10 +47,13 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     }
   }
 
-  FutureOr<void> _createTodo(TodoCreateEvent event, Emitter<TodoState> emit) {
+  FutureOr<void> _createTodo(
+    TodoCreateEvent event,
+    Emitter<TodoState> emit,
+  ) async {
     try {
       emit(TodoLoadingState());
-      final todo = createTodo(event.todoEntity);
+      final todo = await createTodo(event.todoEntity);
       emit(TodoActionSuccessState(message: "Todo successfully created"));
     } catch (e) {
       emit(TodoActionErrorState(message: e.toString()));

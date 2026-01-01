@@ -3,18 +3,28 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_flutter/cores/themes/light-mode.dart';
-import 'package:todo_flutter/features/todo/domain/usecases/create-todo.dart';
-import 'package:todo_flutter/features/todo/domain/usecases/delete-todo.dart';
-import 'package:todo_flutter/features/todo/domain/usecases/find-all-todo.dart';
-import 'package:todo_flutter/features/todo/domain/usecases/find-one-todo.dart';
-import 'package:todo_flutter/features/todo/domain/usecases/update-todo.dart';
+
 import 'package:todo_flutter/features/todo/presentation/bindings/todo-bindings.dart';
 import 'package:todo_flutter/features/todo/presentation/bloc/todo-bloc.dart';
 import 'package:todo_flutter/features/todo/presentation/bloc/todo-event.dart';
 import 'package:todo_flutter/features/todo/presentation/pages/todo.page.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  initTodoDependencies();
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) {
+            return Get.find<TodoBloc>()..add(TodoFindAllEvent());
+          },
+          //child: TodoPage(),
+        ),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 void initTodoDependencies() {
@@ -23,20 +33,15 @@ void initTodoDependencies() {
   }
 }
 
-GoRouter allRoutes = GoRouter(
+GoRouter allRoutes() => GoRouter(
   routes: [
     GoRoute(
       path: '/',
       builder: (context, state) {
-        initTodoDependencies();
-        return BlocProvider(
-          create: (context) {
-            return Get.find<TodoBloc>()..add(TodoFindAllEvent());
-          },
-          child: TodoPage(),
-        );
+        return TodoPage();
       },
     ),
+    //GoRoute(path: '/', builder: (context, state) => TodoTestPage()),
   ],
 );
 
@@ -47,7 +52,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      routerConfig: allRoutes,
+      routerConfig: allRoutes(),
       title: 'Flutter Demo',
       theme: lightMode,
     );

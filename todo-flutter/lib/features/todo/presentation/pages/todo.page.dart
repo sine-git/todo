@@ -15,10 +15,17 @@ class TodoPage extends StatelessWidget {
       appBar: AppBar(title: Text("Todo list")),
       body: RefreshIndicator(
         onRefresh: () async {
-          await context.read<TodoBloc>()
-            ..add(TodoFindAllEvent());
+          /*  await context.read<TodoBloc>()
+            ..add(TodoFindAllEvent()); */
         },
         child: BlocConsumer<TodoBloc, TodoState>(
+          listenWhen: (previous, current) =>
+              current is TodoLoadingState ||
+              previous is TodoInitialState ||
+              current is TodoInitialState ||
+              current is TodoLoadedState ||
+              current is TodoActionSuccessState ||
+              current is TodoErrorState,
           listener: (context, state) {
             if (state is TodoActionLoadingState) {
               showDialog(
@@ -27,8 +34,9 @@ class TodoPage extends StatelessWidget {
                     Center(child: CircularProgressIndicator()),
               );
             }
-            if (state is TodoActionSuccessState) {}
-            context.read<TodoBloc>()..add(TodoFindAllEvent());
+            if (state is TodoActionSuccessState) {
+              context.read<TodoBloc>()..add(TodoFindAllEvent());
+            }
 
             if (state is TodoActionErrorState)
               ScaffoldMessenger.of(context).showSnackBar(
@@ -40,10 +48,14 @@ class TodoPage extends StatelessWidget {
               );
           },
           buildWhen: (previous, current) =>
-              current is TodoLoadingState ||
+              //current is TodoLoadingState ||
+              previous is TodoInitialState ||
+              current is TodoInitialState ||
               current is TodoLoadedState ||
               current is TodoActionSuccessState ||
               current is TodoErrorState,
+          //current is TodoErrorState ||
+          //current is TodoInitialState
           builder: (context, state) {
             final bloc = context.read<TodoBloc>();
             if (state is TodoLoadingState)
