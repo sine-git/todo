@@ -1,12 +1,47 @@
 .page {
   padding: 34px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.app-bar {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: center;
 }
 
 .title {
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
 .todo-list {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
+  max-width: 1240px;
+  border-radius: 16px;
+  box-shadow: 0.1px 1.2px 4px#673ab740;
+  padding: 24px;
+}
+
+.todo-list:hover {
+  box-shadow: 0px 0.8px 6px#673ab750;
+}
+
+.todo-list {
+  transition: all 0.4s ease;
+}
+
+.add-button {
+  color: white;
+  background-color: #673ab7;
+  border: none;
+  padding: 15px;
+  border-radius: 16px;
+  box-shadow: 1px 1px 2px#673ab7;
+}
+
+.add-button .fas {
+  font-size: 1.1rem;
 }

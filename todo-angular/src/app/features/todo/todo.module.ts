@@ -8,9 +8,8 @@ import { TodoService } from './todo.service';
 
 
 @NgModule({
-  declarations: [TodoComponent, TodoItemComponent],
+  declarations: [],
   imports: [
-    CommonModule,
     TodoRoutingModule
   ],
   providers: [TodoService]
