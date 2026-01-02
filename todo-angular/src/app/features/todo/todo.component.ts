@@ -38,6 +38,6 @@ export class TodoComponent implements OnInit {
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open(TodoModalComponent, {})
+    const dialogRef = this.dialog.open(TodoModalComponent, { width: '400px' })
   }
 }

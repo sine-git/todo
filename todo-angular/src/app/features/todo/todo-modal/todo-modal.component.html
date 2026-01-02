@@ -1,1 +1,26 @@
-<p>todo-modal works!</p>
+<div class="modal">
+  <h1 class="title">{{ title }}</h1>
+  <form class="todo-form">
+    <mat-form-field appearance="outline" class="example-full-width">
+      <mat-label>Title</mat-label>
+      <input matInput placeholder="Title" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="example-full-width">
+      <mat-label>User Id</mat-label>
+      <input matInput placeholder="User Id" pattern="[0-9]*" />
+    </mat-form-field>
+
+    <div class="actions">
+      <button mat-button (click)="cancel()">Annuler</button>
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="todoForm.invalid"
+        (click)="save()"
+      >
+        Confirmer
+      </button>
+    </div>
+  </form>
+</div>

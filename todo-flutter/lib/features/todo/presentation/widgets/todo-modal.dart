@@ -96,7 +96,7 @@ class _TodoModalState extends State<TodoModal> {
           onPressed: () {
             context.pop();
           },
-          child: Text("Annuler", style: TextStyle(fontWeight: FontWeight.bold)),
+          child: Text("Cancel", style: TextStyle(fontWeight: FontWeight.bold)),
         ),
         BlocConsumer<TodoBloc, TodoState>(
           listenWhen: (previous, current) =>

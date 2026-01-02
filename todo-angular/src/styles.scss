@@ -7,7 +7,7 @@
 // Theming Angular Material
 
 // Palettes
-$primary: mat.define-palette(mat.$indigo-palette);
+$primary: mat.define-palette(mat.$deep-purple-palette, 500);
 $accent: mat.define-palette(mat.$pink-palette);
 $warn: mat.define-palette(mat.$red-palette);
 

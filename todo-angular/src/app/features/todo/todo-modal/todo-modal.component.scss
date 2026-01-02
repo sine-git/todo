@@ -1,0 +1,21 @@
+.modal {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.title {
+  font-size: 1.2rem;
+}
+
+.todo-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: right;
+  gap: 10px;
+}
