@@ -1,25 +1,43 @@
 <div class="modal">
   <h1 class="title">{{ title }}</h1>
-  <form class="todo-form">
+  <form class="todo-form" [formGroup]="todoForm">
     <mat-form-field appearance="outline" class="example-full-width">
       <mat-label>Title</mat-label>
-      <input matInput placeholder="Title" />
+      <input matInput placeholder="Title" formControlName="title" />
+      <mat-error>Ce champ est obligatoire</mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="example-full-width">
       <mat-label>User Id</mat-label>
-      <input matInput placeholder="User Id" pattern="[0-9]*" />
+      <input
+        matInput
+        placeholder="User Id"
+        pattern="[0-9]*"
+        formControlName="userId"
+      />
+      <mat-error>Ce champ est obligatoire</mat-error>
     </mat-form-field>
+    <div class="completed">
+      <span>Completed</span
+      ><mat-checkbox
+        color="primary"
+        formControlName="completed"
+        class="example-margin"
+        [checked]=""
+        [indeterminate]=""
+      >
+      </mat-checkbox>
+    </div>
 
     <div class="actions">
-      <button mat-button (click)="cancel()">Annuler</button>
+      <button class="action-button" (click)="cancel()">Cancel</button>
       <button
-        mat-raised-button
+        class="action-button"
         color="primary"
         [disabled]="todoForm.invalid"
         (click)="save()"
       >
-        Confirmer
+        Update
       </button>
     </div>
   </form>

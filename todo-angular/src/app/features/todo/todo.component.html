@@ -5,18 +5,20 @@
     </div>
 
     <div class="action">
-      <button class="add-button">
+      <button (click)="openDialog()" class="add-button">
         <i class="fas fa-add"></i>
       </button>
     </div>
   </div>
-  <div class="todo-list">
-    <app-todo-item
-      (click)="openDialog()"
-      *ngFor="let todo of todoList"
-      [title]="todo.title"
-      [userId]="todo.userId?.toString()"
-      [state]="todo.completed"
-    ></app-todo-item>
+  <div class="body">
+    <div class="todo-list">
+      <app-todo-item
+        (click)="openDialog(todo)"
+        *ngFor="let todo of todoList"
+        [title]="todo.title"
+        [userId]="todo.userId?.toString()"
+        [state]="todo.completed"
+      ></app-todo-item>
+    </div>
   </div>
 </div>

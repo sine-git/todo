@@ -36,3 +36,32 @@ html {
 body {
   font-size: 1rem;
 }
+
+.snackbar-success {
+  background-color: #32c832;
+  color: white;
+}
+.snackbar-error {
+  background-color: #e53935;
+  color: white;
+}
+.snackbar-info {
+  background-color: #1976d2; // bleu info
+  color: #ffffff;
+}
+.snackbar-warning {
+  background-color: #f9a825; // orange warning
+  color: #000000;
+}
+
+// Dialog styles
+
+.action-button {
+  font-weight: bold;
+  background: none;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px 10px 20px;
+  color: #673ab7;
+  transition: all 0.5s ease;
+}

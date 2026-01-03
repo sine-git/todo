@@ -2,7 +2,7 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 34px;
 }
 .title {
   font-size: 1.2rem;
@@ -17,5 +17,9 @@
   margin-top: 10px;
   display: flex;
   justify-content: right;
-  gap: 10px;
+  gap: 1px;
+}
+
+.action-button:hover {
+  background-color: #aeabab19;
 }

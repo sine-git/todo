@@ -6,6 +6,10 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { TodoItemComponent } from './todo-item/todo-item.component';
 import { TodoModalComponent } from './todo-modal/todo-modal.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { LoaderService } from 'src/app/common/services/loader.service';
+import { SnackBarService } from 'src/app/common/services/snack-bar.service';
+import { ConfirmationDialogService } from 'src/app/common/services/confirmation-dialog.service';
 
 @Component({
   selector: 'app-todo',
@@ -18,8 +22,12 @@ import { TodoModalComponent } from './todo-modal/todo-modal.component';
 export class TodoComponent implements OnInit {
 
   readonly dialog = inject(MatDialog);
+  readonly todoService = inject(TodoService)
+  readonly snackBarService = inject(SnackBarService)
+  readonly loader = inject(LoaderService)
+  readonly confirmationService = inject(ConfirmationDialogService)
   todoList: TodoModel[] = [];
-  constructor(private todoService: TodoService) {
+  constructor() {
   }
   ngOnInit(): void {
     this.findAll()
@@ -33,11 +41,32 @@ export class TodoComponent implements OnInit {
       this.todoList = list
     }
     catch (e) {
-      console.log(e)
+      //console.log(e)
     }
   }
 
-  openDialog() {
-    const dialogRef = this.dialog.open(TodoModalComponent, { width: '400px' })
+  openDialog(todo?: TodoModel) {
+    const dialogRef = this.dialog.open(TodoModalComponent, { width: '400px', data: todo })
+    dialogRef.afterClosed().subscribe((todo) => {
+
+      if (todo)
+        this.findAll();
+    })
+  }
+
+  async delete(id: number) {
+    try {
+      const confirmationResult = this.confirmationService.showDialog("Do you really want to delete this todo? ");
+      if (!confirmationResult)
+        return
+      this.loader.show()
+      await firstValueFrom(this.todoService.remove(id))
+      this.snackBarService.successMessage('An error occured ')
+      this.loader.hide()
+    }
+    catch (e) {
+      this.snackBarService.errorMessage('An error occured ')
+      this.loader.hide()
+    }
   }
 }

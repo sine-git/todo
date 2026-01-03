@@ -1,11 +1,15 @@
 <div class="todo-item">
-  <div class="titles">
-    <div class="title">User {{ userId }}</div>
-    <div class="subtitle">{{ title }}</div>
-  </div>
-  <div class="trailing">
+  <div class="start">
+    <div class="titles">
+      <div class="title">User {{ userId }}</div>
+      <div class="subtitle">{{ title }}</div>
+    </div>
     <div class="state" [ngClass]="state ? 'completed' : 'on-going'">
       {{ state ? "Completed" : "On going" }}
     </div>
+  </div>
+  <div class="trailing">
+    <i class="fa fa-trash"></i>
+    <i class="fa fa-solid fa-pen-to-square"></i>
   </div>
 </div>

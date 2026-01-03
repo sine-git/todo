@@ -1,0 +1,10 @@
+.loader-background {
+  background-color: #00000030;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;
+}

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from 'src/app/services/api.ts.service';
+import { ApiService } from 'src/app/common/services/api.ts.service';
 import { TodoModel } from './todo.model';
 import { first, firstValueFrom, Observable } from 'rxjs';
 
@@ -12,48 +12,30 @@ export class TodoService {
   constructor(private api: ApiService) {
   }
 
-  async create(todo: TodoModel): Promise<TodoModel> {
-    try {
-      const response = await firstValueFrom(this.api.post(`${this.baseUrl}/todo`, todo));
-      return response
-    } catch (e) {
-      throw e
-    }
+  create(todo: TodoModel): Observable<TodoModel> {
+
+    return this.api.post(`${this.baseUrl}/todo`, todo);
   }
 
   findAll(): Observable<TodoModel[]> {
     return this.api.get<TodoModel[]>(`${this.baseUrl}/todo`);
   }
 
-  async findOne(id: number): Promise<TodoModel> {
-    try {
-      const response = await firstValueFrom(this.api.get(`${this.baseUrl}/todo/${id}`));
-      return response;
-    } catch (e) {
-      throw e
-    }
+  findOne(id: number): Observable<TodoModel> {
+    return this.api.get(`${this.baseUrl}/todo/${id}`);
   }
 
-  async remove(id: number): Promise<void> {
-    try {
-      await this.api.delete('${baseUrl}/todo/${id}');
-      //print("Api call response : $response");    
-    } catch (e) {
-      throw e;
-    }
+  remove(id: number): Observable<void> {
+    return this.api.delete('${baseUrl}/todo/${id}');
   }
 
-  async update(todo: TodoModel): Promise<TodoModel> {
-    try {
-      const response = await firstValueFrom(this.api.patch(
-        `${this.baseUrl}/todo/${todo.id}`,
-        todo,
-      ))
-      return todo;
-    }
-    catch (e) {
-      throw e;
-    }
+  update(id: number, todo: TodoModel): Observable<TodoModel> {
+
+    return this.api.patch(
+      `${this.baseUrl}/todo/${id}`,
+      todo,
+    )
   }
+
 
 }
