@@ -1,15 +1,19 @@
 <div class="todo-item">
   <div class="start">
     <div class="titles">
-      <div class="title">User {{ userId }}</div>
-      <div class="subtitle">{{ title }}</div>
+      <div class="title">User {{ todo?.userId }}</div>
+      <div class="subtitle">{{ todo?.title }}</div>
     </div>
-    <div class="state" [ngClass]="state ? 'completed' : 'on-going'">
-      {{ state ? "Completed" : "On going" }}
+    <div class="state" [ngClass]="todo?.completed ? 'completed' : 'on-going'">
+      {{ todo?.completed ? "Completed" : "On going" }}
     </div>
   </div>
   <div class="trailing">
-    <i class="fa fa-trash"></i>
-    <i class="fa fa-solid fa-pen-to-square"></i>
+    <div class="trailing-button">
+      <i class="fa fa-solid fa-pen-to-square" (click)="openDetails()"></i>
+    </div>
+    <div class="trailing-button">
+      <i class="fa fa-trash" (click)="deleteTodo()"></i>
+    </div>
   </div>
 </div>

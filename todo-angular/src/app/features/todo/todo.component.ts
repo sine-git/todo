@@ -20,12 +20,12 @@ import { ConfirmationDialogService } from 'src/app/common/services/confirmation-
   standalone: true
 })
 export class TodoComponent implements OnInit {
-
   readonly dialog = inject(MatDialog);
   readonly todoService = inject(TodoService)
   readonly snackBarService = inject(SnackBarService)
   readonly loader = inject(LoaderService)
   readonly confirmationService = inject(ConfirmationDialogService)
+  showError = false;
   todoList: TodoModel[] = [];
   constructor() {
   }
@@ -35,15 +35,41 @@ export class TodoComponent implements OnInit {
 
   async findAll() {
     try {
+      this.loader.show()
       const response = await firstValueFrom(this.todoService.findAll())
       const list = response.map((item) => new TodoModel(item.id, item.userId, item.title, item.completed));
 
       this.todoList = list
+      this.loader.hide()
+      this.showError = false
     }
     catch (e) {
-      //console.log(e)
+      this.loader.hide()
+      this.showError = true
+    }
+    finally {
+      this.loader.hide()
     }
   }
+
+  async delete(id: number) {
+    try {
+      const confirmationResult = await this.confirmationService.showDialog("Do you really want to delete this todo? ");
+      if (!confirmationResult)
+        return
+      this.loader.show()
+      await firstValueFrom(this.todoService.remove(id))
+      this.snackBarService.successMessage('Todo successfully deleted ')
+      this.loader.hide()
+      this.findAll()
+    }
+    catch (e) {
+      this.snackBarService.errorMessage('An error occured ')
+      this.loader.hide()
+
+    }
+  }
+
 
   openDialog(todo?: TodoModel) {
     const dialogRef = this.dialog.open(TodoModalComponent, { width: '400px', data: todo })
@@ -54,19 +80,4 @@ export class TodoComponent implements OnInit {
     })
   }
 
-  async delete(id: number) {
-    try {
-      const confirmationResult = this.confirmationService.showDialog("Do you really want to delete this todo? ");
-      if (!confirmationResult)
-        return
-      this.loader.show()
-      await firstValueFrom(this.todoService.remove(id))
-      this.snackBarService.successMessage('An error occured ')
-      this.loader.hide()
-    }
-    catch (e) {
-      this.snackBarService.errorMessage('An error occured ')
-      this.loader.hide()
-    }
-  }
 }

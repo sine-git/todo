@@ -10,7 +10,11 @@ export class ConfirmationDialogService {
 
   readonly dialog = inject(MatDialog);
   async showDialog(message: string) {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, { data: message })
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: message,
+      //width: "200px"
+
+    })
     return await firstValueFrom(dialogRef.afterClosed())
   }
 }

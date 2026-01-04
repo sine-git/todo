@@ -10,6 +10,8 @@ import { ConfirmationDialogService } from '../../services/confirmation-dialog.se
 })
 export class ConfirmationDialogComponent {
   readonly dialogRef = inject(MatDialogRef<ConfirmationDialogComponent>)
+  message: any;
+  title: any;
   confirm() {
     this.dialogRef.close(true)
   }

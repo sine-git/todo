@@ -112,6 +112,9 @@ class _TodoModalState extends State<TodoModal> {
               );
             }
             if (state is TodoActionSuccessState) {
+              //For closing the show dialog for loader...
+              context.pop();
+              //For closing the current dialog...
               context.pop();
             }
 

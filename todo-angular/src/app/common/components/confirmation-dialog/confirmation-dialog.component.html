@@ -1,4 +1,10 @@
 <div class="dialog">
+  <div class="dialog-title">
+    {{ title ?? "Confirmation" }}
+  </div>
+  <div class="message">
+    {{ message ?? "Are you sure to do this action?" }}
+  </div>
   <div class="actions">
     <button class="action-button" (click)="cancel()">Cancel</button>
     <button class="action-button" color="primary" (click)="confirm()">

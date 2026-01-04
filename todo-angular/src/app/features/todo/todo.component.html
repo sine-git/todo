@@ -13,12 +13,14 @@
   <div class="body">
     <div class="todo-list">
       <app-todo-item
-        (click)="openDialog(todo)"
+        (onDetails)="openDialog(todo)"
+        (onDelete)="delete(todo.id!)"
         *ngFor="let todo of todoList"
-        [title]="todo.title"
-        [userId]="todo.userId?.toString()"
-        [state]="todo.completed"
+        [todo]="todo"
       ></app-todo-item>
+      <div *ngIf="showError" class="error-message">
+        Impossible to load todo list
+      </div>
     </div>
   </div>
 </div>

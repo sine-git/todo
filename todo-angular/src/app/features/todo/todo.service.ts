@@ -26,7 +26,7 @@ export class TodoService {
   }
 
   remove(id: number): Observable<void> {
-    return this.api.delete('${baseUrl}/todo/${id}');
+    return this.api.delete(`${this.baseUrl}/todo/${id}`);
   }
 
   update(id: number, todo: TodoModel): Observable<TodoModel> {

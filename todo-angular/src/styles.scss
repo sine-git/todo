@@ -56,6 +56,12 @@ body {
 
 // Dialog styles
 
+.dialog-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 14px;
+}
+
 .action-button {
   font-weight: bold;
   background: none;
@@ -64,4 +70,24 @@ body {
   padding: 10px 20px 10px 20px;
   color: #673ab7;
   transition: all 0.5s ease;
+}
+
+.action-button:hover {
+  background-color: #aeabab19;
+}
+
+.actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: end;
+  gap: 1px;
+}
+
+.trailing-button {
+  cursor: pointer;
+  padding: 8px;
+}
+
+.trailing-button:hover {
+  background-color: #aeabab19;
 }
