@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:todo_flutter/cores/utils/functions.dart';
 import 'package:todo_flutter/features/todo/presentation/bloc/todo-bloc.dart';
 import 'package:todo_flutter/features/todo/presentation/bloc/todo-event.dart';
@@ -68,11 +69,38 @@ class TodoPage extends StatelessWidget {
                     },
                     onUpdate: (details) {},
                     confirmDismiss: (details) async {
-                      context.read<TodoBloc>()
-                        ..add(TodoDeleteEvent(id: todo.id!));
-                      if (state is TodoActionSuccessState) return true;
-                      if (state is TodoErrorState) {
-                        showMessage(context, state);
+                      final confirmation = await showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text(
+                            "Confirmation dialog",
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          content: Text(
+                            "Are you sure you want to delete this todo?",
+                          ),
+                          actions: [
+                            TextButton(
+                              onPressed: () => context.pop(false),
+                              child: Text("Cancel"),
+                            ),
+                            TextButton(
+                              onPressed: () => context.pop(true),
+                              child: Text("Confirm"),
+                            ),
+                          ],
+                        ),
+                      );
+                      if (confirmation) {
+                        context.read<TodoBloc>()
+                          ..add(TodoDeleteEvent(id: todo.id!));
+                        if (state is TodoActionSuccessState) return true;
+                        if (state is TodoErrorState) {
+                          showMessage(context, state);
+                        }
                       }
                       return false;
                     },
