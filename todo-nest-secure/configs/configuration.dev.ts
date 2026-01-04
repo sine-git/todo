@@ -1,0 +1,19 @@
+export default () => ({
+    database: {
+        name: "jsonplaceholder",
+        label: "Dev database",
+        host: "localhost",
+        port: 3306,
+        username: "root",
+        password: "Janvier1998",
+        database: "jsonplaceholder"
+    },
+    server: {
+        name: "Dev server",
+        host: "localhost",
+        port: "3200"
+    },
+    jwt: {
+        secret: "e4f1d2c3b5a697887766554433221100ffeeddccbbaa99887766554433221100"
+    }
+})
